@@ -1,0 +1,75 @@
+				--DDBMS Lab Instruction--
+			-----------------------------------------
+
+Software installation Steps:
+	1. Download and install 'Docker Desktop Installer.exe' file.
+	2. Make a directory [Ex. Hadoop_xm] into desktop folder.
+	3. Go to the Hadoop_xm directory [Ex. C:\Users\sourov\Desktop\Hadoop_xm] and open cmd.
+	4. Clone the Git using following command:
+		git clone https://github.com/big-data-europe/docker-hadoop.git
+	5. Change the directory to inter 'docker-hadoop' folder. 
+		cd docker-hadoop
+	6. Run the following command to configure:
+		docker-compose up -d
+
+
+Program running Summary:
+	1. Run docker.
+	2. Hadoop run with docker and create a input directory.
+	3. Write java program in the local directory.
+	4. Copy the java program to hadoop docker instance
+	5. Copy the text file to hadoop docker instance
+	6. Put the text file into hadoop input folder. 
+	7. Compile java progrm with hadoop and make jar file. 
+	8. Execute the jar file with hadoop.
+	9. Show the output.
+___________________________________________________________________________________________________
+Go to the docker-hadoop directory [Ex. C:\Users\tec\Desktop\docker-xm] and open cmd.
+Cmd-01: Run docker hadoop in docker '-d' for backgroung process.
+	docker-compose up -d
+
+Cmd-02: To show the docker containter.
+	docker ps
+
+Cmd-03: Enter the hadoop instance.
+	docker exec -it namenode bash
+
+Cmd-04: Create a input directory [Ex. folder111].
+	hdfs dfs -mkdir -p /root/folder111
+------------------------------------------------------------------------------------------------
+Go to wc directory [C:\Users\tec\Desktop\docker-xm\wc] and agin open cmd.
+		Task-1: Copy the java file [Ex. WordCount.java] into hadoop's namenode instance.
+				docker cp WordCount.java namenode:/tmp
+
+		Task-2: Copy the input file [Ex. data111.txt] into hadoop's namenode instance.
+				docker cp data111.txt namenode:/tmp
+------------------------------------------------------------------------------------------------
+
+Cmd-05: Copy the input file [Ex. data111.txt] tmp folder to hadoop input folder [Ex. folder111].
+	hdfs dfs -put /tmp/data111.txt /root/folder111
+
+Cmd-06: Go to tmp folder of hadoop instance.
+	cd /tmp
+
+Cmd-07: Compile java with hadoop class path to create class file.
+	javac -classpath $(hadoop classpath) -d . WordCount.java
+
+Cmd-08: Create a jar file [Ex. wordcount111.jar]
+	jar cf wordcount111.jar WordCount*.class
+
+Cmd-09: To view class and jar files list.
+	ls
+
+Cmd-10: Run the jar file to use mapreduce program to calculate wordcount.
+	hadoop jar wordcount111.jar WordCount /root/folder111 /root/output 
+
+Cmd-11: Show the final output.
+	hdfs dfs -cat /root/output/*
+___________________________________________________________________________________________________
+
+More Command: 
+	* To delete input files: hdfs dfs -rm -r /root/folder126/*
+	* To remove output file: hdfs dfs -rm -r /root/output
+
+	* To remove file form tmp: rm /tmp/data111.txt
+	 

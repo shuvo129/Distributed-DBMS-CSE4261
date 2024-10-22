@@ -1,0 +1,6 @@
+1 apple orange mango apple saikot shuvo suhan
+2 apple plum grapes banana raspberry
+3 pineapple raspberry banana pomgranate
+4 banana orange apple grapes plum
+5 plum raspberry pomgranate mango
+6 grapes grapes apple mango pineapple 

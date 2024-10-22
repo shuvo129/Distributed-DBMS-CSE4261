@@ -1,0 +1,39 @@
+Steps:
+done 1. Run docker 
+done 2. Hadoop run with docker, and create a input directory.
+done 3. write java program.. [local]
+done 4. copy the java program to hadoop docker instance
+done 5. copy the text file to hadoop docker instance
+done 6. Put the text file into hadoop input folder. 
+done 7. Compile java progrm with hadoop. (name.jar)
+done 8. Execute the jar file with hadoop.
+done 9. Show the output... 
+
+_____________________
+Open the docker-hadoop directory [hadoop instance folder...].....
+$ docker-compose up -d # run docker hadoop in docker '-d for background'
+$ docker ps # show the docker container. 
+$ docker exec -it namenode bash # Enter the hadoop instance
+$ hdfs dfs -mkdir -p /root/folder126 # create a input directory named folder126
+
+Go to wc folder. and open cmd.....
+$ docker cp WordCount.java namenode:/tmp # copy the WordCount.java program to hadoop's namenode instance
+$ docker cp data126.txt namenode:/tmp # copy the data126.txt into hadoops namenode instance
+
+In the hadoop instance....
+$$ hdfs dfs -put /tmp/data126.txt /root/folder126 # copy the data126.txt to hadoop input folder named folder126
+$ cd /tmp # Go to tmp folder of hadoop instance
+$ javac -classpath $(hadoop classpath) -d . WordCount.java # compile java with hadoop class path
+$ jar cf wordcount126.jar WordCount*.class # create a jarfile named wordcount126.jar you can assign any name here. 
+$$ hadoop jar wordcount126.jar WordCount /root/folder126 /root/output # run the jar file to use mapreduce program to calculate wordcount.. 
+$$ hdfs dfs -cat /root/output/* # Show the output...
+
+
+.................................................................................................................
+More Command: 
+	* To delete input files: hdfs dfs -rm -r /root/folder126/*
+	* To remove output file: hdfs dfs -rm -r /root/output
+
+	* To remove file form tmp: rm /tmp/data126.txt
+ Run again($$) : 5, 9, 10.
+
